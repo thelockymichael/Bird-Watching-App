@@ -86,7 +86,7 @@
     <EditText
         android:id="@+id/notesEditText"
         android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="24dp"
@@ -97,6 +97,7 @@
         android:hint="Write bird notes..."
         android:inputType="textMultiLine|textPersonName|textImeMultiLine"
         android:padding="6dp"
+        android:singleLine="false"
         android:textColor="#000000"
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
