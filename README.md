@@ -19,12 +19,8 @@ interactive elements, using React/Vue/Svelte lib or vanilla JS.
 2. Open the downloaded project in Android Studio (3.5.3v at the time of uploading) 
 
 ### Running, building and making project
-* <b> Make project. </b>
-Make proejct compiles all the source files in the entire project that have been modified since the last compilation are compiled. 
-Dependent source files, if appropriate, are also compiled.
-<p align="center">
-  <img src="readme_images/make_circle.jpeg" alt="make project" width="650">
-</p>
+
+Here I have listed ways to start running and building the app into an APK.
 
 * <b> Running project. </b>
 Running project will launch the application on an emulated or physical Android device.
@@ -38,4 +34,12 @@ Builds an APK of all modules in the current project for their selected variant. 
 <p align="center">
   <img src="readme_images/build_circle.jpeg" alt="build project" width="650">
 </p>
+
+* <b> Make project. </b>
+Make proejct compiles all the source files in the entire project that have been modified since the last compilation are compiled. 
+Dependent source files, if appropriate, are also compiled.
+<p align="center">
+  <img src="readme_images/make_circle.jpeg" alt="make project" width="650">
+</p>
+
 </details>
