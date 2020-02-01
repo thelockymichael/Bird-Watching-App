@@ -30,7 +30,7 @@ In the image the current emulating device is set to Pixel 3 XL.
 </p>
 
 * <b> Building project. </b>
-Builds an APK of all modules in the current project for their selected variant. When the build completes, a confirmation notification appears, providing a link to the APK file. The path to file is in <i><b>BirdApp/app/build/outputs/apk/debug/</b></i>
+Builds an APK of all modules in the current project for their selected variant. When the build completes, a confirmation notification appears, providing a link to the APK file. The path to file is in <i><b>BirdApp/app/build/outputs/apk/debug/</b></i> and default file name is app-debug.
 <p align="center">
   <img src="readme_images/build_circle.jpeg" alt="build project" width="650">
 </p>
