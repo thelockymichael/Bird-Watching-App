@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BirdApp</string>
+
+    <string-array name="sort_types">
+        <item>SORT BY DATE</item>
+        <item>SORT BY NAME</item>
+        <item>SORT BY RARITY</item>
+        <item>SORT BY NOTES</item>
+        <item>SORT BY DATE</item>
+    </string-array>
+</resources>
