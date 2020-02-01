@@ -9,7 +9,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd396999-26f4-4453-b8d3-a4394c15edfc" name="Default Changelist" comment="" />
+    <list default="true" id="bd396999-26f4-4453-b8d3-a4394c15edfc" name="Default Changelist" comment="MainActivity, DetailsActivity, CustomAdapter and DBHelper successfully implemented.&#10;&#10;User can: &#10;- fill in bird information&#10;- delete and update by selecting bird in list&#10;- sort list by name length, rarity, length of notes and by the latest date and time">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
