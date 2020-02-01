@@ -18,8 +18,17 @@ interactive elements, using React/Vue/Svelte lib or vanilla JS.
 
 2. Open the downloaded project in Android Studio (3.5.3v at the time of uploading) 
 
-3. 
+3.  Running, building and making project
+* <b> Make project. </b>
 <p align="center">
   <img src="readme_images/make_circle.jpeg" alt="make project" width="650">
+</p>
+* <b> Running project. </b>
+<p align="center">
+  <img src="readme_images/play_circle.jpeg" alt="play project" width="650">
+</p>
+* <b> Building project. </b>
+<p align="center">
+  <img src="readme_images/build_circle.jpeg" alt="build project" width="650">
 </p>
 </details>
