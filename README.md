@@ -41,10 +41,7 @@ Dependent source files, if appropriate, are also compiled.
 
 </details>
 
+### Automation testing
+Not implemented :( 
 
-<details>
-<summary>
-  ### Automation testing
-  </summary>
-</details>
 
