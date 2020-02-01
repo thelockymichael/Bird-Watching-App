@@ -1,5 +1,5 @@
 # Bird-Watching-App
-This project is created in Android Studio for the preassignment of CGI Future Talent. 
+This project is created in Android Studio for the CGI Future Talent's preassignment. 
 
 ## Description
 The project has two activity screens, MainActivity and DetailsActivity. MainActivity is for sorting, adding and displaying the list and DetailsActivity is to fill in bird observation details.
