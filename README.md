@@ -19,4 +19,7 @@ interactive elements, using React/Vue/Svelte lib or vanilla JS.
 2. Open the downloaded project in Android Studio (3.5.3v at the time of uploading) 
 
 3. 
+<p align="center">
+  <img src="readme_images/make_circle.jpeg" alt="make project" width="650">
+</p>
 </details>
