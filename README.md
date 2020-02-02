@@ -44,4 +44,8 @@ Dependent source files, if appropriate, are also compiled.
 ### Automation testing
 Not implemented :( 
 
+### Screenshots
+Solarized dark             |  Solarized Ocean          |
+:-------------------------:|:-------------------------:|:-------------------------:
+![](readme_images/build_circle.jpeg)  |  ![](readme_images/make_circle.jpeg) | ![](readme_images/make_circle.jpeg)
 
