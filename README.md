@@ -1,8 +1,12 @@
 # Bird-Watching-App
-I've created an Android Studio app for the preassignment of CGI Future Talent. 
-saDSAD
+This project is created in Android Studio for the CGI Future Talent's preassignment. 
 
-## Usage
+## Description
+The project has two activity screens, MainActivity and DetailsActivity. MainActivity is for sorting, adding and displaying the list and DetailsActivity is to fill in bird observation details.
+The few important classes are DBHelper class that implements SQLiteOpenHelper interface for saving and sorting data structures and CustomAdapter that allows to use layout resource files for versatile list item customisations. 
+
+I haven't implemented any geolocation or picture features, but I intend to do as it will be useful for other projects as well.
+
 
 ### Running and building the application
 
@@ -36,3 +40,16 @@ Dependent source files, if appropriate, are also compiled.
 </p>
 
 </details>
+
+### Automation testing
+Not implemented :( 
+
+### Application screenshots
+
+<p align="center">
+  <img src="readme_images/main.png" alt="main" width="300">
+  <img src="readme_images/listview04.png" alt="listview04" width="300">
+  <img src="readme_images/listview01.png" alt="listview01" width="300">
+  <img src="readme_images/details.png" alt="details" width="300">
+</p>
+
