@@ -1,17 +1,21 @@
 package com.milo.birdapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import kotlin.collections.ArrayList
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+
 
 class DetailsActivity : AppCompatActivity() {
 
     private val dbHandler = DBHelper(this, null)
     lateinit var nameEditText: EditText
     lateinit var notesEditText: EditText
+    lateinit var toolBar: Toolbar
+
     private lateinit var raritySpinner: Spinner
 
     lateinit var modifyId: String
@@ -22,6 +26,14 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+
+        // Setting up Toolbar
+        toolBar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolBar)
+
+        supportActionBar?.setTitle("")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         nameEditText = findViewById(R.id.nameEditText)
         notesEditText = findViewById(R.id.notesEditText)
@@ -48,6 +60,13 @@ class DetailsActivity : AppCompatActivity() {
             findViewById<Button>(R.id.btnUpdate).visibility = View.GONE
             findViewById<Button>(R.id.btnDelete).visibility = View.GONE
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.getItemId() === android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun add(v: View) {

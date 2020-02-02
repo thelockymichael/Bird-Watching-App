@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BirdApp</string>
+    <string name="app_name">Bird Watching</string>
 
     <string-array name="sort_types">
         <item>SORT BY DATE</item>

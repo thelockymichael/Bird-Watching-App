@@ -7,8 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var spinner: Spinner
     private lateinit var textView: TextView
+
+    private lateinit var listView: ListView
+    private var customAdapter: CustomAdapter? = null
 
     private var rarityTypes =
         mapOf(Pair(0, "Common"), Pair(1, "Rare"), Pair(2, "Extremely rare"))
@@ -27,13 +29,15 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById(R.id.textView)
         spinner = findViewById(R.id.sortSpinner)
+        listView = findViewById(R.id.listView)
+        //customAdapter = CustomAdapter()
 
-        val sort_names = resources.getStringArray(R.array.sort_types)
+        val sortNames = resources.getStringArray(R.array.sort_types)
 
         var myAdapter = ArrayAdapter<String>(
             applicationContext,
             android.R.layout.simple_list_item_1,
-            sort_names
+            sortNames
         )
 
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 id: Long
             ) {
 
-                when (sort_names[position]) {
+                when (sortNames[position]) {
                     "SORT BY NAME" -> loadIntoList("ORDER BY LENGTH(name) DESC")
                     "SORT BY RARITY" -> loadIntoList("ORDER BY rarity DESC")
                     "SORT BY NOTES" -> loadIntoList("ORDER BY LENGTH(notes) DESC")
@@ -59,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 Toast.makeText(
                     this@MainActivity,
-                    "" + sort_names[position], Toast.LENGTH_SHORT
+                    "" + sortNames[position], Toast.LENGTH_SHORT
                 ).show()
 
             }
@@ -70,7 +74,6 @@ class MainActivity : AppCompatActivity() {
 
     fun loadIntoList(orderBy: String) {
         dataList.clear()
-        Log.i("ORDERBY", orderBy)
         val cursor: Cursor? = dbHandler.getAllRow(orderBy)
         cursor!!.moveToFirst()
 
@@ -93,12 +96,16 @@ class MainActivity : AppCompatActivity() {
             cursor.moveToNext()
         }
 
+        customAdapter?.notifyDataSetChanged()
+
         if (dataList.count() == 0) {
-            textView.setText("Add a bird.")
+            textView.text = "Add a bird."
         } else {
             textView.visibility = View.GONE
-            findViewById<ListView>(R.id.listView).adapter =
-                CustomAdapter(this@MainActivity, dataList)
+
+            customAdapter = CustomAdapter(this@MainActivity, dataList)
+            listView.adapter = customAdapter
+
             findViewById<ListView>(R.id.listView).setOnItemClickListener { _, _, i, _ ->
                 val intent = Intent(this, DetailsActivity::class.java)
                 intent.putExtra("id", dataList[+i]["id"])
