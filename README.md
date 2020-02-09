@@ -47,9 +47,8 @@ Not implemented :(
 ### Application screenshots
 
 <p align="center">
-  <img src="readme_images/main.png" alt="main" width="300">
-  <img src="readme_images/listview04.png" alt="listview04" width="300">
-  <img src="readme_images/listview01.png" alt="listview01" width="300">
-  <img src="readme_images/details.png" alt="details" width="300">
+  <img src="readme_images/main_view.png" alt="details" width="300">
+  <img src="readme_images/details_view.png" alt="details" width="300">
+  <img src="readme_images/maps_view.png" alt="details" width="300">
 </p>
 
