@@ -8,4 +8,5 @@
         <item>SORT BY NOTES</item>
         <item>SORT BY DATE</item>
     </string-array>
+    <string name="title_activity_mark_bird_location">Mark bird location</string>
 </resources>

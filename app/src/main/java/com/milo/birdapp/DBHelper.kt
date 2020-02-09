@@ -5,6 +5,8 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteQueryBuilder
+import java.sql.Blob
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -12,7 +14,15 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
 
-        db.execSQL("CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT, $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_DATE DATETIME)")
+/*        db.execSQL(
+            "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT," +
+                    " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_LATITUDE TEXT," +
+                    " $COLUMN_LONGITUDE TEXT, $COLUMN_ADDRESS TEXT, $COLUMN_DATE DATETIME)"
+        )*/
+        db.execSQL(
+            "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT," +
+                    " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_DATE DATETIME)"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -20,11 +30,23 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
-    fun insertRow(name: String, rarity: String, notes: String) {
+    fun insertRow(
+        name: String,
+        rarity: String,
+        notes: String,
+        image: ByteArray?
+/*        latitude: String,
+        longitude: String,
+        address: String*/
+    ) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name)
         values.put(COLUMN_RARITY, rarity)
         values.put(COLUMN_NOTES, notes)
+        values.put(COLUMN_IMAGE, image)
+/*        values.put(COLUMN_LATITUDE, latitude)
+        values.put(COLUMN_LONGITUDE, longitude)
+        values.put(COLUMN_ADDRESS, address)*/
         values.put(COLUMN_DATE, getDateTime())
 
         val db = this.writableDatabase
@@ -32,11 +54,24 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.close()
     }
 
-    fun updateRow(row_id: String, name: String, rarity: String, notes: String) {
+    fun updateRow(
+        row_id: String,
+        name: String,
+        rarity: String,
+        notes: String,
+        image: ByteArray
+/*        latitude: String,
+        longitude: String,
+        address: String*/
+    ) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name)
         values.put(COLUMN_RARITY, rarity)
         values.put(COLUMN_NOTES, notes)
+        values.put(COLUMN_IMAGE, image)
+/*        values.put(COLUMN_LATITUDE, latitude)
+        values.put(COLUMN_LONGITUDE, longitude)
+        values.put(COLUMN_ADDRESS, address)*/
 
         val db = this.writableDatabase
         db.update(TABLE_NAME, values, "$COLUMN_ID = ?", arrayOf(row_id))
@@ -63,6 +98,25 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return dateFormat.format(date)
     }
 
+    fun getBitmapByName(id: String): ByteArray? {
+        val db = this.writableDatabase
+        val qb = SQLiteQueryBuilder()
+
+        val sqlSelect = arrayOf(COLUMN_IMAGE)
+        qb.tables =
+            TABLE_NAME
+        val c = qb.query(db, sqlSelect, "id = ?", arrayOf(id), null, null, null)
+
+        var result: ByteArray? = null
+
+        if (c.moveToFirst()) {
+            do {
+                result = c.getBlob(c.getColumnIndex(COLUMN_IMAGE))
+            } while (c.moveToNext())
+        }
+        return result
+    }
+
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "myDBfile.db"
@@ -73,6 +127,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val COLUMN_RARITY = "rarity"
         const val COLUMN_NOTES = "notes"
         const val COLUMN_DATE = "date"
+        const val COLUMN_IMAGE = "image"
+/*        const val COLUMN_LATITUDE = "LATITUDE"
+        const val COLUMN_LONGITUDE = "longitude"
+        const val COLUMN_ADDRESS = "address"*/
         //const val COLUMN_CONTENT = "content"
     }
 }

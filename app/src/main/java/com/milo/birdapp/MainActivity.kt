@@ -2,17 +2,19 @@ package com.milo.birdapp
 
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.util.LruCache
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.milo.sqlitesavebitmap.Utils.Utils
 
 
 class MainActivity : AppCompatActivity() {
     val dbHandler = DBHelper(this, null)
-    var dataList = ArrayList<HashMap<String, String>>()
+    var birdList = ArrayList<Bird>()
 
     private lateinit var spinner: Spinner
     private lateinit var textView: TextView
@@ -20,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
     private var customAdapter: CustomAdapter? = null
 
-    private var rarityTypes =
-        mapOf(Pair(0, "Common"), Pair(1, "Rare"), Pair(2, "Extremely rare"))
+    private var rarityTypes = mapOf(Pair(0, "Common"), Pair(1, "Rare"), Pair(2, "Extremely rare"))
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         spinner = findViewById(R.id.sortSpinner)
         listView = findViewById(R.id.listView)
         //customAdapter = CustomAdapter()
+
+        //loadIntoList("ORDER BY date DESC")
 
         val sortNames = resources.getStringArray(R.array.sort_types)
 
@@ -73,45 +77,50 @@ class MainActivity : AppCompatActivity() {
 
 
     fun loadIntoList(orderBy: String) {
-        dataList.clear()
+        birdList.clear()
         val cursor: Cursor? = dbHandler.getAllRow(orderBy)
         cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast) {
 
-            var arvo = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_RARITY))
-            var string = rarityTypes[arvo.toInt()]
+            //var arvo = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_RARITY))
 
+            var id = cursor.getString(0)
+            var name = cursor.getString(1)
+            var rarity = cursor.getInt(2)
+            var notes = cursor.getString(3)
+            var image = cursor.getBlob(4)
+            var date = cursor.getString(5)
 
-            val map = HashMap<String, String>()
-            map["id"] = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_ID))
-            map["name"] = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_NAME))
-            map["rarity"] = string.toString()
-            map["notes"] = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_NOTES))
-            map["date"] = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_DATE))
-
-            Log.i("DATE", cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_DATE)))
-
-            dataList.add(map)
+            birdList.add(Bird(id, name, rarity, notes, image, date))
             cursor.moveToNext()
         }
 
         customAdapter?.notifyDataSetChanged()
 
-        if (dataList.count() == 0) {
+        if (birdList.count() == 0) {
             textView.text = "Add a bird."
         } else {
             textView.visibility = View.GONE
 
-            customAdapter = CustomAdapter(this@MainActivity, dataList)
+            customAdapter = CustomAdapter(this@MainActivity, birdList)
             listView.adapter = customAdapter
 
             findViewById<ListView>(R.id.listView).setOnItemClickListener { _, _, i, _ ->
                 val intent = Intent(this, DetailsActivity::class.java)
-                intent.putExtra("id", dataList[+i]["id"])
-                intent.putExtra("name", dataList[+i]["name"])
-                intent.putExtra("notes", dataList[+i]["notes"])
-                intent.putExtra("rarity", dataList[+i]["rarity"])
+
+                intent.putExtra("id", birdList[+i].id)
+                intent.putExtra("name", birdList[+i].name)
+                intent.putExtra("notes", birdList[+i].notes)
+                intent.putExtra("rarity", rarityTypes[birdList[+i].rarity])
+
+                //intent.putExtra("image", birdList[+i].image)
+                Utils.addBitmapToMemoryCache(birdList[+i].id, Utils.getImage(birdList[+i].image))
+
+
+                Log.i("IMAGEVIEW", birdList[+i].image.toString())
+
+
                 startActivity(intent)
             }
         }
@@ -125,5 +134,7 @@ class MainActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         loadIntoList("ORDER BY date DESC")
+        Log.i("REMOVING", "ON RESUME")
+
     }
 }
