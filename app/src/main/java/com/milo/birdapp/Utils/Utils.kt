@@ -40,15 +40,11 @@ object Utils {
 
     fun addBitmapToMemoryCache(key: String, bitmap: Bitmap?) {
 
-/*        if (getBitmapFromMemCache(key) != null) {
-            mMemoryCache.remove(key)
-            mMemoryCache.put(key, bitmap!!)
-        }*/
         Log.i("INFOA", mMemoryCache.size().toString())
-        if (getBitmapFromMemCache(key) == null) {
+        if (getBitmapFromMemCache(key) == null || getBitmapFromMemCache(key) != null) {
             mMemoryCache.remove(key)
             mMemoryCache.put(key, bitmap!!)
-            Log.i("REMOVING", "REMOVING")
+            Log.i("REMOVING", "REMOVING BITMAP FROM MEMORY")
         }
     }
 

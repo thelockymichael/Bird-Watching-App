@@ -146,14 +146,16 @@ class DetailsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         var selectedImage: Uri? = data?.data
-        Log.i("EKA", "EKA")
+        Log.i("REMOVING", "onActivityResult")
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && selectedImage != null) {
             try {
                 var bitMap: Bitmap =
                     MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
 
+
                 uploadImageView.setImageBitmap(bitMap)
+                Utils.addBitmapToMemoryCache(intent.getStringExtra("id"), bitMap)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

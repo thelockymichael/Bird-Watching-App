@@ -117,7 +117,6 @@ class MainActivity : AppCompatActivity() {
                 //intent.putExtra("image", birdList[+i].image)
                 Utils.addBitmapToMemoryCache(birdList[+i].id, Utils.getImage(birdList[+i].image))
 
-
                 Log.i("IMAGEVIEW", birdList[+i].image.toString())
 
 
