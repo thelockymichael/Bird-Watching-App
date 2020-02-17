@@ -1,38 +1,26 @@
 package com.milo.birdapp
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.ArraySet
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
-import com.milo.sqlitesavebitmap.Utils.Utils
-import kotlinx.android.synthetic.main.activity_details.*
-import java.io.ByteArrayOutputStream
-import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.absoluteValue
+import com.milo.birdapp.Utils.Utils
 
 
 class DetailsActivity : AppCompatActivity() {
 
     private val dbHandler = DBHelper(this, null)
 
-    // UI
     private lateinit var nameEditText: EditText
     private lateinit var notesEditText: EditText
     private lateinit var toolBar: Toolbar
@@ -41,10 +29,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var raritySpinner: Spinner
 
-    // Temp strings
     private lateinit var modifyId: String
-    //private lateinit var latitude: String
-    //private lateinit var longitude: String
     private var latLng: String = ""
     private var address: String = ""
 
@@ -52,7 +37,7 @@ class DetailsActivity : AppCompatActivity() {
         mapOf(Pair("Common", 0), Pair("Rare", 1), Pair("Extremely rare", 2))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.getItemId() === android.R.id.home) {
+        if (item.itemId === android.R.id.home) {
             finish()
         }
         return super.onOptionsItemSelected(item)
@@ -96,9 +81,6 @@ class DetailsActivity : AppCompatActivity() {
             raritySpinner.setSelection(rarityTypes[intent.getStringExtra("rarity")]!!)
             latLng = intent.getStringExtra("latLng")
             address = intent.getStringExtra("address")
-            Log.i("LATLNG", "From item Click: " + latLng)
-            Log.i("LATLNG", "From item Click: " + address)
-
             uploadImageView.setImageBitmap(Utils.getBitmapFromMemCache(intent.getStringExtra("id")))
 
             findViewById<Button>(R.id.btnAdd).visibility = View.GONE
@@ -115,15 +97,6 @@ class DetailsActivity : AppCompatActivity() {
                 getPhoto()
             }
         }
-
-        /*markBirdButton.setOnClickListener {
-
-            startActivityForResult(
-                Intent(applicationContext, MarkBirdLocationActivity::class.java),
-                1
-            )
-            //startActivity(Intent(applicationContext, MarkBirdLocationActivity::class.java))
-        }*/
     }
 
     fun setBirdMarker(view: View) {
@@ -136,11 +109,10 @@ class DetailsActivity : AppCompatActivity() {
         Log.i("LATLNG", "setBirdMarker: " + address)
 
         startActivityForResult(intent, 1)
-        //startActivity(Intent(applicationContext, MarkBirdLocationActivity::class.java))
     }
 
     private fun getPhoto() {
-        var intent =
+        val intent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, 1)
     }
@@ -162,12 +134,12 @@ class DetailsActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        var selectedImage: Uri? = data?.data
+        val selectedImage: Uri? = data?.data
         Log.i("REMOVING", "onActivityResult")
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && selectedImage != null) {
             try {
-                var bitMap: Bitmap =
+                val bitMap: Bitmap =
                     MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
 
 
@@ -180,25 +152,21 @@ class DetailsActivity : AppCompatActivity() {
 
         if (requestCode == 1 && resultCode == RESULT_OK && data!!.hasExtra("latLng")) {
             Log.i("ADDRESS", "PERKELE")
-            Log.i("LATLNG", "DetailsActivity: " + data!!.getStringExtra("latLng"))
-            Log.i("LATLNG", "DetailsActivity: " + data!!.getStringExtra("address"))
+            Log.i("LATLNG", "DetailsActivity: " + data.getStringExtra("latLng"))
+            Log.i("LATLNG", "DetailsActivity: " + data.getStringExtra("address"))
 
-            latLng = data!!.getStringExtra("latLng")
+            latLng = data.getStringExtra("latLng")
             //latitude = data!!.getStringExtra("latitude")
             //longitude = data!!.getStringExtra("longitude")
-            address = data!!.getStringExtra("address")
+            address = data.getStringExtra("address")
         }
     }
 
     fun add(v: View) {
-
         val name = nameEditText.text.toString()
         val notes = notesEditText.text.toString()
         val rarity = rarityTypes[raritySpinner.selectedItem]
         val image = uploadImageView
-
-
-        //Log.i("IMAGE", image.size.toString())
 
         dbHandler.insertRow(
             name,
@@ -206,13 +174,11 @@ class DetailsActivity : AppCompatActivity() {
             notes,
             Utils.getBytes(image.drawToBitmap()),
             latLng, address
-
-            //latitude, longitude, address
         )
-
 
         Toast.makeText(this, "Data added", Toast.LENGTH_SHORT).show()
         finish()
+
     }
 
     fun update(v: View) {
@@ -228,9 +194,7 @@ class DetailsActivity : AppCompatActivity() {
             notes,
             Utils.getBytes(image.drawToBitmap()),
             latLng, address
-            //latitude, longitude, address,
         )
-
 
         Toast.makeText(this, "Data updated", Toast.LENGTH_SHORT).show()
         finish()

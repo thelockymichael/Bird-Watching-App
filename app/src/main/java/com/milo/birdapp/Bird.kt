@@ -8,9 +8,6 @@ class Bird(
     image: ByteArray?,
     latLng: String?,
     address: String?,
-/*    latitude: String,
-    longitude: String,
-    address: String,*/
     date: String
 ) {
 
@@ -30,5 +27,4 @@ class Bird(
         private set
     var date: String = date
         private set
-
 }

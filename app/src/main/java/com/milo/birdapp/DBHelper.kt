@@ -6,8 +6,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
-import com.google.android.gms.maps.model.LatLng
-import java.sql.Blob
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,11 +13,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
 
-/*        db.execSQL(
-            "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT," +
-                    " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_LATITUDE TEXT," +
-                    " $COLUMN_LONGITUDE TEXT, $COLUMN_ADDRESS TEXT, $COLUMN_DATE DATETIME)"
-        )*/
         db.execSQL(
             "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT," +
                     " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_LATLONG TEXT, $COLUMN_ADDRESS TEXT, $COLUMN_DATE DATETIME)"
@@ -38,9 +31,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         image: ByteArray?,
         latLng: String?,
         address: String?
-/*        latitude: String,
-        longitude: String,
-        address: String*/
     ) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name)
@@ -49,9 +39,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(COLUMN_IMAGE, image)
         values.put(COLUMN_LATLONG, latLng)
         values.put(COLUMN_ADDRESS, address)
-/*        values.put(COLUMN_LATITUDE, latitude)
-        values.put(COLUMN_LONGITUDE, longitude)
-        values.put(COLUMN_ADDRESS, address)*/
         values.put(COLUMN_DATE, getDateTime())
 
         val db = this.writableDatabase
@@ -67,9 +54,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         image: ByteArray?,
         latLng: String?,
         address: String?
-/*        latitude: String,
-        longitude: String,
-        address: String*/
     ) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name)
@@ -78,9 +62,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(COLUMN_IMAGE, image)
         values.put(COLUMN_LATLONG, latLng)
         values.put(COLUMN_ADDRESS, address)
-/*        values.put(COLUMN_LATITUDE, latitude)
-        values.put(COLUMN_LONGITUDE, longitude)
-        values.put(COLUMN_ADDRESS, address)*/
 
         val db = this.writableDatabase
         db.update(TABLE_NAME, values, "$COLUMN_ID = ?", arrayOf(row_id))
@@ -139,9 +120,5 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val COLUMN_IMAGE = "image"
         const val COLUMN_LATLONG = "latLng"
         const val COLUMN_ADDRESS = "address"
-/*        const val COLUMN_LATITUDE = "LATITUDE"
-        const val COLUMN_LONGITUDE = "longitude"
-        const val COLUMN_ADDRESS = "address"*/
-        //const val COLUMN_CONTENT = "content"
     }
 }

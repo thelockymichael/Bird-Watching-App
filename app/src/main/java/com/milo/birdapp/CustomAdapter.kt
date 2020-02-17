@@ -1,10 +1,7 @@
 package com.milo.birdapp
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +9,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.milo.sqlitesavebitmap.Utils.Utils
-import java.lang.Exception
-import java.net.URLDecoder
 
 class CustomAdapter(
     private val context: Context,
@@ -26,7 +18,6 @@ class CustomAdapter(
         Pair(1, "Rare"),
         Pair(2, "Extremely rare")
     )
-
 
 ) : BaseAdapter() {
     private val inflater: LayoutInflater =
@@ -47,7 +38,7 @@ class CustomAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         Log.i("VIEW", convertView.toString())
-        var dataitem = birdList[position]
+        val dataitem = birdList[position]
 
         val rowView = inflater.inflate(R.layout.list_row, parent, false)
 
@@ -56,16 +47,11 @@ class CustomAdapter(
         rowView.findViewById<TextView>(R.id.row_notes).text = dataitem.notes
         rowView.findViewById<TextView>(R.id.row_date).text = dataitem.date
         rowView.findViewById<TextView>(R.id.row_address).text = dataitem.address
-/*
-        rowView.findViewById<TextView>(R.id.row_address).text = dataitem.address
-*/
 
         if (dataitem.image != null) {
             val bitmap = BitmapFactory.decodeByteArray(dataitem.image, 0, dataitem.image!!.size)
 
             rowView.findViewById<ImageView>(R.id.row_image).setImageBitmap(bitmap)
-
-            Log.i("PERKELE", "PERKELE")
         }
 
         rowView.tag = position

@@ -1,8 +1,6 @@
 package com.milo.birdapp
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.*
@@ -18,10 +16,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_mark_bird_location.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,9 +27,6 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationManager: LocationManager? = null
     private var locationListener: LocationListener? = null
 
-    // Bird marker vars
-    //private lateinit var latitude: String
-    //private lateinit var longitude: String
     private var newLatLng: LatLng? = null
     private var address: String = ""
 
@@ -44,18 +37,12 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (intent.getStringExtra("latLng").isNullOrEmpty()) {
             if (location != null) {
-                Log.i("USERLOCATION", LatLng(location.latitude, location.longitude).toString())
                 val userLocation = LatLng(location.latitude, location.longitude)
                 mMap.addMarker(MarkerOptions().position(userLocation).title(title))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 25f))
             }
         } else {
             val latLngArray = intent.getStringExtra("latLng").split(" ", ",")
-
-            Log.i("LATLNG", latLngArray.toString())
-            Log.i("LATLNG", latLngArray[1].substring(1, latLngArray[1].length))
-
-            Log.i("LATLNG", latLngArray[2].substring(0, latLngArray[2].length - 1))
 
             val latitude = latLngArray[1].substring(1, latLngArray[1].length).toDouble()
             val longitude = latLngArray[2].substring(0, latLngArray[2].length - 1).toDouble()
@@ -70,19 +57,7 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
             )
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 25f))
 
-            /*val location = LatLng(latLng.latitude, latLng.longitude)
-            mMap.addMarker(
-                MarkerOptions().position(location).title(address)
-            )
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 25f))*/
         }
-        /*
-        if (location != null) {
-            Log.i("USERLOCATION", LatLng(location.latitude, location.longitude).toString())
-            val userLocation = LatLng(location.latitude, location.longitude)
-            mMap.addMarker(MarkerOptions().position(userLocation).title(title))
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 25f))
-        }*/
     }
 
     override fun onRequestPermissionsResult(
@@ -110,13 +85,11 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.getItemId() === android.R.id.home) {
+        if (item.itemId === android.R.id.home) {
 
             if (newLatLng != null) {
                 val resultIntent = Intent(this, DetailsActivity::class.java)
 
-                //resultIntent.putExtra("latitude", latitude)
-                //resultIntent.putExtra("longitude", longitude)
                 resultIntent.putExtra("latLng", newLatLng.toString())
                 resultIntent.putExtra("address", address)
 
@@ -159,11 +132,11 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setMapLongClick(map: GoogleMap) {
         map.setOnMapLongClickListener { latLng ->
 
-            var geocoder = Geocoder(applicationContext, Locale.getDefault())
+            val geocoder = Geocoder(applicationContext, Locale.getDefault())
             address = ""
 
             try {
-                var listAddresses: List<Address> =
+                val listAddresses: List<Address> =
                     geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
 
                 if (listAddresses != null && listAddresses.isNotEmpty()) {
@@ -180,36 +153,14 @@ class MarkBirdLocationActivity : AppCompatActivity(), OnMapReadyCallback {
                 e.printStackTrace()
             }
 
-            if (address.equals("")) {
-                var sdf = SimpleDateFormat(" HH:mm dd-MM-yyyy")
+            if (address == "") {
+                val sdf = SimpleDateFormat(" HH:mm dd-MM-yyyy")
                 address += sdf.format(Date())
             }
 
             map.clear()
             map.addMarker(MarkerOptions().position(latLng).title(address))
             newLatLng = latLng
-
-            Log.i("LATLNG", newLatLng.toString())
-            Log.i("LATLNG", address)
-
-/*
-            val resultIntent = Intent(this, DetailsActivity::class.java)
-*/
-
-            //latitude = latLng.latitude.toString()
-            //longitude = latLng.longitude.toString()
-
-
-/*            resultIntent.putExtra("latitude", latLng.latitude.toString())
-            resultIntent.putExtra("longitude", latLng.longitude.toString())
-            resultIntent.putExtra("address", address)
-
-            Log.i("LAT", latLng.latitude.toString())
-            Log.i("LONG", latLng.longitude.toString())
-            Log.i("ADDRESS", address)
-            setResult(RESULT_OK, resultIntent)
-
-            finish()*/
         }
     }
 

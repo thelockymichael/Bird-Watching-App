@@ -1,23 +1,22 @@
-package com.milo.sqlitesavebitmap.Utils
+package com.milo.birdapp.Utils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.collection.LruCache
 import java.io.ByteArrayOutputStream
 
 
 object Utils {
-    var mMemoryCache = LruCache<String, Bitmap?>(1024)
+    private var mMemoryCache = LruCache<String, Bitmap?>(1024)
 
     init {
-        var maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
+        val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
 
-        var cacheSize = maxMemory / 8
+        val cacheSize = maxMemory / 8
 
         mMemoryCache = object : LruCache<String, Bitmap?>(cacheSize) {
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
-                return bitmap.getByteCount() / 1024; }
+                return bitmap.byteCount / 1024; }
         }
     }
 
@@ -29,7 +28,7 @@ object Utils {
     }
 
     fun getImage(image: ByteArray?): Bitmap? {
-        return BitmapFactory.decodeByteArray(image!!, 0, image!!.size)
+        return BitmapFactory.decodeByteArray(image!!, 0, image.size)
     }
 
 
@@ -40,11 +39,9 @@ object Utils {
 
     fun addBitmapToMemoryCache(key: String, bitmap: Bitmap?) {
 
-        Log.i("INFOA", mMemoryCache.size().toString())
         if (getBitmapFromMemCache(key) == null || getBitmapFromMemCache(key) != null) {
             mMemoryCache.remove(key)
             mMemoryCache.put(key, bitmap!!)
-            Log.i("REMOVING", "REMOVING BITMAP FROM MEMORY")
         }
     }
 

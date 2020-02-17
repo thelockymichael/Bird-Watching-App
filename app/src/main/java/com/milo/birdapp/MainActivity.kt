@@ -2,19 +2,16 @@ package com.milo.birdapp
 
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
-import android.util.LruCache
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.milo.sqlitesavebitmap.Utils.Utils
+import com.milo.birdapp.Utils.Utils
 
 
 class MainActivity : AppCompatActivity() {
-    val dbHandler = DBHelper(this, null)
-    var birdList = ArrayList<Bird>()
+    private val dbHandler = DBHelper(this, null)
+    private var birdList = ArrayList<Bird>()
 
     private lateinit var spinner: Spinner
     private lateinit var textView: TextView
@@ -32,13 +29,10 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.textView)
         spinner = findViewById(R.id.sortSpinner)
         listView = findViewById(R.id.listView)
-        //customAdapter = CustomAdapter()
-
-        //loadIntoList("ORDER BY date DESC")
 
         val sortNames = resources.getStringArray(R.array.sort_types)
 
-        var myAdapter = ArrayAdapter<String>(
+        val myAdapter = ArrayAdapter<String>(
             applicationContext,
             android.R.layout.simple_list_item_1,
             sortNames
@@ -83,16 +77,14 @@ class MainActivity : AppCompatActivity() {
 
         while (!cursor.isAfterLast) {
 
-            //var arvo = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_RARITY))
-
-            var id = cursor.getString(0)
-            var name = cursor.getString(1)
-            var rarity = cursor.getInt(2)
-            var notes = cursor.getString(3)
-            var image = cursor.getBlob(4)
-            var latLng = cursor.getString(5)
-            var address = cursor.getString(6)
-            var date = cursor.getString(7)
+            val id = cursor.getString(0)
+            val name = cursor.getString(1)
+            val rarity = cursor.getInt(2)
+            val notes = cursor.getString(3)
+            val image = cursor.getBlob(4)
+            val latLng = cursor.getString(5)
+            val address = cursor.getString(6)
+            val date = cursor.getString(7)
 
             birdList.add(Bird(id, name, rarity, notes, image, latLng, address, date))
             cursor.moveToNext()
@@ -118,11 +110,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("latLng", birdList[+i].latLng)
                 intent.putExtra("address", birdList[+i].address)
 
-                //intent.putExtra("image", birdList[+i].image)
                 Utils.addBitmapToMemoryCache(birdList[+i].id, Utils.getImage(birdList[+i].image))
-
-                Log.i("IMAGEVIEW", birdList[+i].image.toString())
-
 
                 startActivity(intent)
             }
@@ -137,7 +125,5 @@ class MainActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         loadIntoList("ORDER BY date DESC")
-        Log.i("REMOVING", "ON RESUME")
-
     }
 }
