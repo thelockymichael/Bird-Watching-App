@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
+import com.google.android.gms.maps.model.LatLng
 import java.sql.Blob
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,7 +22,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         )*/
         db.execSQL(
             "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT," +
-                    " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_DATE DATETIME)"
+                    " $COLUMN_RARITY INT, $COLUMN_NOTES TEXT, $COLUMN_IMAGE BLOB, $COLUMN_LATLONG TEXT, $COLUMN_ADDRESS TEXT, $COLUMN_DATE DATETIME)"
         )
     }
 
@@ -34,7 +35,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         name: String,
         rarity: String,
         notes: String,
-        image: ByteArray?
+        image: ByteArray?,
+        latLng: String?,
+        address: String?
 /*        latitude: String,
         longitude: String,
         address: String*/
@@ -44,6 +47,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(COLUMN_RARITY, rarity)
         values.put(COLUMN_NOTES, notes)
         values.put(COLUMN_IMAGE, image)
+        values.put(COLUMN_LATLONG, latLng)
+        values.put(COLUMN_ADDRESS, address)
 /*        values.put(COLUMN_LATITUDE, latitude)
         values.put(COLUMN_LONGITUDE, longitude)
         values.put(COLUMN_ADDRESS, address)*/
@@ -59,7 +64,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         name: String,
         rarity: String,
         notes: String,
-        image: ByteArray
+        image: ByteArray?,
+        latLng: String?,
+        address: String?
 /*        latitude: String,
         longitude: String,
         address: String*/
@@ -69,6 +76,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(COLUMN_RARITY, rarity)
         values.put(COLUMN_NOTES, notes)
         values.put(COLUMN_IMAGE, image)
+        values.put(COLUMN_LATLONG, latLng)
+        values.put(COLUMN_ADDRESS, address)
 /*        values.put(COLUMN_LATITUDE, latitude)
         values.put(COLUMN_LONGITUDE, longitude)
         values.put(COLUMN_ADDRESS, address)*/
@@ -128,6 +137,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val COLUMN_NOTES = "notes"
         const val COLUMN_DATE = "date"
         const val COLUMN_IMAGE = "image"
+        const val COLUMN_LATLONG = "latLng"
+        const val COLUMN_ADDRESS = "address"
 /*        const val COLUMN_LATITUDE = "LATITUDE"
         const val COLUMN_LONGITUDE = "longitude"
         const val COLUMN_ADDRESS = "address"*/

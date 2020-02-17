@@ -18,6 +18,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.drawToBitmap
 import com.milo.sqlitesavebitmap.Utils.Utils
 import kotlinx.android.synthetic.main.activity_details.*
 import java.io.ByteArrayOutputStream
@@ -42,9 +43,10 @@ class DetailsActivity : AppCompatActivity() {
 
     // Temp strings
     private lateinit var modifyId: String
-    private lateinit var latitude: String
-    private lateinit var longitude: String
-    private lateinit var address: String
+    //private lateinit var latitude: String
+    //private lateinit var longitude: String
+    private var latLng: String = ""
+    private var address: String = ""
 
     private var rarityTypes =
         mapOf(Pair("Common", 0), Pair("Rare", 1), Pair("Extremely rare", 2))
@@ -92,8 +94,10 @@ class DetailsActivity : AppCompatActivity() {
             nameEditText.setText(intent.getStringExtra("name"))
             notesEditText.setText(intent.getStringExtra("notes"))
             raritySpinner.setSelection(rarityTypes[intent.getStringExtra("rarity")]!!)
-
-
+            latLng = intent.getStringExtra("latLng")
+            address = intent.getStringExtra("address")
+            Log.i("LATLNG", "From item Click: " + latLng)
+            Log.i("LATLNG", "From item Click: " + address)
 
             uploadImageView.setImageBitmap(Utils.getBitmapFromMemCache(intent.getStringExtra("id")))
 
@@ -120,6 +124,19 @@ class DetailsActivity : AppCompatActivity() {
             )
             //startActivity(Intent(applicationContext, MarkBirdLocationActivity::class.java))
         }*/
+    }
+
+    fun setBirdMarker(view: View) {
+
+        val intent = Intent(applicationContext, MarkBirdLocationActivity::class.java)
+        intent.putExtra("address", address)
+        intent.putExtra("latLng", latLng)
+
+        Log.i("LATLNG", "setBirdMarker: " + latLng)
+        Log.i("LATLNG", "setBirdMarker: " + address)
+
+        startActivityForResult(intent, 1)
+        //startActivity(Intent(applicationContext, MarkBirdLocationActivity::class.java))
     }
 
     private fun getPhoto() {
@@ -161,13 +178,14 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data!!.hasExtra("latitude")) {
-            Log.i("LAT", "PERKELE")
-            Log.i("LONG", data!!.getStringExtra("longitude"))
-            Log.i("ADDRESS", data!!.getStringExtra("address"))
+        if (requestCode == 1 && resultCode == RESULT_OK && data!!.hasExtra("latLng")) {
+            Log.i("ADDRESS", "PERKELE")
+            Log.i("LATLNG", "DetailsActivity: " + data!!.getStringExtra("latLng"))
+            Log.i("LATLNG", "DetailsActivity: " + data!!.getStringExtra("address"))
 
-            latitude = data!!.getStringExtra("latitude")
-            longitude = data!!.getStringExtra("longitude")
+            latLng = data!!.getStringExtra("latLng")
+            //latitude = data!!.getStringExtra("latitude")
+            //longitude = data!!.getStringExtra("longitude")
             address = data!!.getStringExtra("address")
         }
     }
@@ -186,7 +204,9 @@ class DetailsActivity : AppCompatActivity() {
             name,
             rarity.toString(),
             notes,
-            Utils.getBytes((image.drawable as BitmapDrawable).bitmap)
+            Utils.getBytes(image.drawToBitmap()),
+            latLng, address
+
             //latitude, longitude, address
         )
 
@@ -206,8 +226,9 @@ class DetailsActivity : AppCompatActivity() {
             name,
             rarity.toString(),
             notes,
-            Utils.getBytes((image.drawable as BitmapDrawable).bitmap)
-            //latitude, longitude, address
+            Utils.getBytes(image.drawToBitmap()),
+            latLng, address
+            //latitude, longitude, address,
         )
 
 

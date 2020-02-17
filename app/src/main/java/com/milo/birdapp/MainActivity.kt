@@ -90,9 +90,11 @@ class MainActivity : AppCompatActivity() {
             var rarity = cursor.getInt(2)
             var notes = cursor.getString(3)
             var image = cursor.getBlob(4)
-            var date = cursor.getString(5)
+            var latLng = cursor.getString(5)
+            var address = cursor.getString(6)
+            var date = cursor.getString(7)
 
-            birdList.add(Bird(id, name, rarity, notes, image, date))
+            birdList.add(Bird(id, name, rarity, notes, image, latLng, address, date))
             cursor.moveToNext()
         }
 
@@ -113,6 +115,8 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("name", birdList[+i].name)
                 intent.putExtra("notes", birdList[+i].notes)
                 intent.putExtra("rarity", rarityTypes[birdList[+i].rarity])
+                intent.putExtra("latLng", birdList[+i].latLng)
+                intent.putExtra("address", birdList[+i].address)
 
                 //intent.putExtra("image", birdList[+i].image)
                 Utils.addBitmapToMemoryCache(birdList[+i].id, Utils.getImage(birdList[+i].image))

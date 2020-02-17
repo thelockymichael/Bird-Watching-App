@@ -55,6 +55,7 @@ class CustomAdapter(
         rowView.findViewById<TextView>(R.id.row_rarity).text = "(${rarityTypes[dataitem.rarity]})"
         rowView.findViewById<TextView>(R.id.row_notes).text = dataitem.notes
         rowView.findViewById<TextView>(R.id.row_date).text = dataitem.date
+        rowView.findViewById<TextView>(R.id.row_address).text = dataitem.address
 /*
         rowView.findViewById<TextView>(R.id.row_address).text = dataitem.address
 */

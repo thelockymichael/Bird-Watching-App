@@ -70,7 +70,7 @@
         android:background="@drawable/rounded_shape_red"
         android:capitalize="none"
         android:includeFontPadding="false"
-        android:onClick="add"
+        android:onClick="setBirdMarker"
         android:text="ADD BIRD MARKER"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -185,6 +185,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLayout"
-        app:srcCompat="@android:color/holo_blue_bright" />
+        app:srcCompat="@drawable/ic_upload_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

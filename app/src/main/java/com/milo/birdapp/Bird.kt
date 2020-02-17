@@ -6,6 +6,8 @@ class Bird(
     rarity: Int,
     notes: String,
     image: ByteArray?,
+    latLng: String?,
+    address: String?,
 /*    latitude: String,
     longitude: String,
     address: String,*/
@@ -22,12 +24,10 @@ class Bird(
         private set
     var image: ByteArray? = image
         private set
-    /*    var latitude: String = latitude
-            private set
-        var longitude: String = longitude
-            private set
-        var address: String = address
-            private set*/
+    var latLng: String? = latLng
+        private set
+    var address: String? = address
+        private set
     var date: String = date
         private set
 
