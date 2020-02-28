@@ -37,4 +37,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // PARSE SERVER GITHUB IMPLEMENTATION
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.22.1"
+    // for FCM Push support (optional)
+    implementation "com.github.parse-community.Parse-SDK-Android:fcm:1.22.1"
+    // for Kotlin extensions support (optional)
+    implementation "com.github.parse-community.Parse-SDK-Android:ktx:1.22.1"
+
 }

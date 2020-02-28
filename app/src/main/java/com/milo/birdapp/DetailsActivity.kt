@@ -100,7 +100,6 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     fun setBirdMarker(view: View) {
-
         val intent = Intent(applicationContext, MarkBirdLocationActivity::class.java)
         intent.putExtra("address", address)
         intent.putExtra("latLng", latLng)

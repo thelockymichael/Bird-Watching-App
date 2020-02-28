@@ -92,9 +92,9 @@ class MainActivity : AppCompatActivity() {
 
         customAdapter?.notifyDataSetChanged()
 
-        if (birdList.count() == 0) {
+        if (birdList.count() == 0)
             textView.text = "Add a bird."
-        } else {
+        else {
             textView.visibility = View.GONE
 
             customAdapter = CustomAdapter(this@MainActivity, birdList)
